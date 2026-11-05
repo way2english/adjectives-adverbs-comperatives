@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ступені порівняння: прикметники та прислівники (A1–A2)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f9fc; --card:#ffffff; --ink:#23364a; --muted:#6b7f93;
+  --line:#dbe7f0; --sky:#4aa3df; --sky-soft:#e3f2fb;
+  --mint:#38b887; --mint-soft:#dff5ea;
+  --coral:#e8645a; --coral-soft:#fde8e5;
+  --sun:#f6b93b; --sun-soft:#fff4d6;
+  --plum:#8a6fd1; --plum-soft:#ece6fa;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Nunito",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.5;
+  background-image:radial-gradient(circle at 8% 0%,#e2f1fb 0,transparent 38%),radial-gradient(circle at 100% 10%,#fff1d0 0,transparent 30%)}
+.wrap{max-width:1180px;margin:0 auto;padding:28px 18px 60px}
+header{margin-bottom:18px}
+h1{font-size:clamp(1.6rem,3.4vw,2.4rem);line-height:1.15;margin:0 0 8px;font-weight:800}
+header p{margin:0;color:var(--muted);max-width:62ch;font-size:1.05rem}
+.how{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 0;padding:0;list-style:none}
+.how li{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:8px 14px;font-size:.92rem}
+.how b{color:var(--sky)}
+
+/* score panel */
+.panel{position:sticky;top:0;z-index:20;margin:18px -6px 16px;padding:12px 16px;background:rgba(255,255,255,.94);backdrop-filter:blur(6px);
+  border:1px solid var(--line);border-radius:18px;box-shadow:0 6px 18px rgba(52,98,140,.08);display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.stat{min-width:90px}
+.stat .n{font-size:1.5rem;font-weight:800;line-height:1}
+.stat .l{font-size:.78rem;color:var(--muted)}
+.bar{flex:1 1 200px;min-width:160px}
+.track{height:14px;border-radius:99px;background:var(--sky-soft);overflow:hidden}
+.fill{height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--sky),var(--mint));transition:width .5s ease}
+.rank{font-weight:700;font-size:.9rem;margin-top:4px;color:var(--ink)}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
+button{font:inherit;font-weight:700;border:0;border-radius:12px;padding:10px 16px;cursor:pointer;transition:transform .12s,box-shadow .12s,background .15s}
+button:hover{transform:translateY(-1px)}
+button:active{transform:translateY(0)}
+button:focus-visible,input:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.b-main{background:var(--sky);color:#fff;box-shadow:0 3px 0 #2f84bd}
+.b-soft{background:var(--sun-soft);color:#8a5d00;box-shadow:0 3px 0 #f0d58b}
+.b-ghost{background:#eef3f7;color:var(--ink);box-shadow:0 3px 0 #d3dde6}
+
+/* table */
+.tablebox{background:var(--card);border:1px solid var(--line);border-radius:20px;overflow-x:auto;box-shadow:0 8px 24px rgba(52,98,140,.07)}
+table{border-collapse:separate;border-spacing:0;width:100%;min-width:980px}
+thead th{padding:12px 8px;font-size:.88rem;font-weight:800;text-align:center;border-bottom:1px solid var(--line);vertical-align:bottom}
+thead th small{display:block;font-weight:600;color:var(--muted);font-size:.74rem}
+th.c-adj{background:var(--sun-soft);text-align:left;padding-left:18px;position:sticky;left:0;z-index:5;min-width:150px}
+th.c-adv{background:var(--mint-soft)}
+th.c-cadj{background:var(--sky-soft)}
+th.c-sadj{background:var(--plum-soft)}
+th.c-cadv{background:#d9f0f3}
+th.c-sadv{background:var(--coral-soft)}
+tbody td{padding:7px 6px;border-bottom:1px solid #eef3f7;vertical-align:middle}
+tbody tr:last-child td{border-bottom:0}
+td.word{position:sticky;left:0;z-index:4;background:#fffdf6;font-size:1.12rem;font-weight:800;padding-left:18px;border-right:1px solid var(--line)}
+td.word .tag{display:inline-block;margin-left:8px;font-size:.7rem;font-weight:700;background:var(--sky);color:#fff;border-radius:99px;padding:1px 8px;vertical-align:middle}
+td.cell{position:relative}
+input{width:100%;font:inherit;font-weight:600;padding:9px 10px;border:2px solid var(--line);border-radius:11px;background:#fbfdff;color:var(--ink);transition:border-color .15s,background .15s}
+input:hover:not([readonly]){border-color:#b9d4e8}
+input:focus{border-color:var(--sky);background:#fff}
+input.ok{border-color:var(--mint);background:var(--mint-soft)}
+input.bad{border-color:var(--coral);background:var(--coral-soft);animation:shake .35s}
+input.reveal{border-color:var(--sun);background:var(--sun-soft);color:#7a5200}
+tr.example input{border-style:dashed;border-color:#9ccaea;background:var(--sky-soft);color:#1d5f8c}
+tr.done td.word{background:var(--mint-soft)}
+tr.done td.word::after{content:"⭐";margin-left:8px}
+@keyframes shake{25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+
+.msg{margin:16px 2px 0;min-height:1.6em;font-weight:700}
+.legend{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:.85rem;margin-top:10px}
+.dot{display:inline-block;width:12px;height:12px;border-radius:4px;margin-right:5px;vertical-align:-1px}
+footer{margin-top:28px;color:var(--muted);font-size:.85rem}
+
+/* confetti */
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:50}
+@media (max-width:700px){.actions{margin-left:0;width:100%}.actions button{flex:1}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<canvas id="confetti"></canvas>
+<div class="wrap">
+  <header>
+    <h1>Ступені порівняння прикметників та прислівників</h1>
+    <p>Рівень A1–A2. Подивись на прикметник у першій колонці та впиши решту форм: прислівник, вищий і найвищий ступені.</p>
+    <ul class="how">
+      <li><b>1.</b> Розглянь приклад у першому рядку (slow).</li>
+      <li><b>2.</b> Заповни порожні клітинки.</li>
+      <li><b>3.</b> Натисни «Перевірити» та виправ помилки.</li>
+      <li><b>4.</b> Хочеш ще раз? Натисни «Скинути».</li>
+    </ul>
+  </header>
+
+  <section class="panel" aria-live="polite">
+    <div class="stat"><div class="n" id="sScore">0 / 95</div><div class="l">правильних відповідей</div></div>
+    <div class="stat"><div class="n" id="sRows">0 / 19</div><div class="l">рядків без помилок</div></div>
+    <div class="stat"><div class="n" id="sTry">0</div><div class="l">перевірок</div></div>
+    <div class="bar">
+      <div class="track"><div class="fill" id="fill"></div></div>
+      <div class="rank" id="rank">🌱 Починаємо!</div>
+    </div>
+    <div class="actions">
+      <button class="b-main" id="btnCheck">Перевірити</button>
+      <button class="b-soft" id="btnShow">Показати відповіді</button>
+      <button class="b-ghost" id="btnReset">Скинути</button>
+    </div>
+  </section>
+
+  <div class="tablebox">
+    <table>
+      <thead>
+        <tr>
+          <th class="c-adj">Прикметник<small>Adjective</small></th>
+          <th class="c-adv">Прислівник<small>Adverb</small></th>
+          <th class="c-cadj">Вищий ступінь прикметника</th>
+          <th class="c-sadj">Найвищий ступінь прикметника</th>
+          <th class="c-cadv">Вищий ступінь прислівника</th>
+          <th class="c-sadv">Найвищий ступінь прислівника</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+
+  <div class="msg" id="msg"></div>
+  <div class="legend">
+    <span><i class="dot" style="background:var(--mint)"></i>правильно</span>
+    <span><i class="dot" style="background:var(--coral)"></i>є помилка</span>
+    <span><i class="dot" style="background:var(--sun)"></i>показана відповідь</span>
+    <span>Де є дві форми, достатньо написати одну з них (наприклад, quieter) або обидві через «/».</span>
+  </div>
+  <footer>Регістр літер і зайві пробіли не враховуються. Артикль the у найвищому ступені обов’язковий.</footer>
+</div>
+
+<script>
+// [adjective, adverb, comparative adj, superlative adj, comparative adv, superlative adv]
+// Alternatives are separated with " / ".
+const DATA = [
+  ["slow","slowly","slower","the slowest","more slowly","the most slowly"], // example
+  ["fast","fast","faster","the fastest","faster","the fastest"],
+  ["hard","hard","harder","the hardest","harder","the hardest"],
+  ["early","early","earlier","the earliest","earlier","the earliest"],
+  ["late","late","later","the latest","later","the latest"],
+  ["loud","loudly","louder","the loudest","more loudly","the most loudly"],
+  ["quiet","quietly","quieter / more quiet","the quietest / the most quiet","more quietly","the most quietly"],
+  ["happy","happily","happier","the happiest","more happily","the most happily"],
+  ["easy","easily","easier","the easiest","more easily","the most easily"],
+  ["clever","cleverly","cleverer / more clever","the cleverest / the most clever","more cleverly","the most cleverly"],
+  ["careful","carefully","more careful","the most careful","more carefully","the most carefully"],
+  ["beautiful","beautifully","more beautiful","the most beautiful","more beautifully","the most beautifully"],
+  ["serious","seriously","more serious","the most serious","more seriously","the most seriously"],
+  ["polite","politely","more polite","the most polite","more politely","the most politely"],
+  ["active","actively","more active","the most active","more actively","the most actively"],
+  ["dangerous","dangerously","more dangerous","the most dangerous","more dangerously","the most dangerously"],
+  ["good","well","better","the best","better","the best"],
+  ["bad","badly","worse","the worst","worse","the worst"],
+  ["little","little","less","the least","less","the least"],
+  ["far","far","farther / further","the farthest / the furthest","farther / further","the farthest / the furthest"]
+];
+const COLS = 5, TASKS = DATA.length - 1, TOTAL = TASKS * COLS;
+const tbody = document.getElementById("tbody");
+let attempts = 0, revealed = false;
+
+const norm = s => s.toLowerCase().replace(/[’‘`]/g,"'").replace(/\s+/g," ").trim();
+const variants = ans => ans.split("/").map(norm);
+function isCorrect(value, ans){
+  const v = norm(value);
+  if(!v) return false;
+  const vars = variants(ans);
+  if(vars.includes(v)) return true;
+  if(vars.length > 1){
+    const parts = v.split(/\s*[\/,;]\s*/).map(norm).filter(Boolean);
+    return parts.length === vars.length && vars.every(x => parts.includes(x));
+  }
+  return false;
+}
+
+// build table
+DATA.forEach((row, r) => {
+  const tr = document.createElement("tr");
+  const isEx = r === 0;
+  if(isEx) tr.className = "example";
+  const th = document.createElement("td");
+  th.className = "word";
+  th.innerHTML = row[0] + (isEx ? '<span class="tag">приклад</span>' : "");
+  tr.appendChild(th);
+  for(let c = 1; c <= COLS; c++){
+    const td = document.createElement("td");
+    td.className = "cell";
+    const inp = document.createElement("input");
+    inp.type = "text";
+    inp.autocomplete = "off"; inp.autocapitalize = "off"; inp.spellcheck = false;
+    inp.setAttribute("aria-label", row[0] + " — колонка " + c);
+    if(isEx){ inp.value = row[c]; inp.readOnly = true; inp.tabIndex = -1; }
+    else{
+      inp.dataset.r = r; inp.dataset.c = c;
+      inp.addEventListener("input", () => { inp.classList.remove("ok","bad","reveal"); });
+      inp.addEventListener("keydown", e => {
+        if(e.key === "Enter"){
+          e.preventDefault();
+          const all = [...tbody.querySelectorAll("input:not([readonly])")];
+          const n = all[all.indexOf(inp) + (e.shiftKey ? -1 : 1)];
+          if(n) n.focus(); else document.getElementById("btnCheck").focus();
+        }
+      });
+    }
+    td.appendChild(inp); tr.appendChild(td);
+  }
+  tbody.appendChild(tr);
+});
+
+const inputs = () => [...tbody.querySelectorAll("input:not([readonly])")];
+const rowsEls = () => [...tbody.querySelectorAll("tr:not(.example)")];
+
+function check(){
+  attempts++;
+  inputs().forEach(inp => {
+    if(inp.classList.contains("reveal")) return;
+    const ans = DATA[inp.dataset.r][inp.dataset.c];
+    inp.classList.remove("ok","bad");
+    if(inp.value.trim() === "") return;          // empty cells stay neutral
+    inp.classList.add(isCorrect(inp.value, ans) ? "ok" : "bad");
+  });
+  update(true);
+}
+
+function update(afterCheck){
+  const all = inputs();
+  const ok = all.filter(i => i.classList.contains("ok")).length;
+  const bad = all.filter(i => i.classList.contains("bad")).length;
+  const empty = all.filter(i => i.value.trim() === "" ).length;
+  let perfectRows = 0;
+  rowsEls().forEach(tr => {
+    const good = [...tr.querySelectorAll("input")].every(i => i.classList.contains("ok"));
+    tr.classList.toggle("done", good);
+    if(good) perfectRows++;
+  });
+  const pct = Math.round(ok / TOTAL * 100);
+  document.getElementById("sScore").textContent = ok + " / " + TOTAL;
+  document.getElementById("sRows").textContent = perfectRows + " / " + TASKS;
+  document.getElementById("sTry").textContent = attempts;
+  document.getElementById("fill").style.width = pct + "%";
+  document.getElementById("rank").textContent =
+    pct === 100 ? "🏆 Чемпіон степенів порівняння!" :
+    pct >= 85 ? "🚀 Майже ідеально!" :
+    pct >= 60 ? "🌟 Дуже добре!" :
+    pct >= 30 ? "🌿 Гарний початок!" : "🌱 Починаємо!";
+  if(!afterCheck) return;
+  const msg = document.getElementById("msg");
+  if(ok === TOTAL && !revealed){
+    msg.textContent = "Браво! Усі " + TOTAL + " відповідей правильні 🎉" + (attempts === 1 ? " Причому з першої спроби!" : "");
+    msg.style.color = "var(--mint)"; confetti();
+  } else if(bad > 0){
+    msg.textContent = "Є помилки: " + bad + ". Виправ червоні клітинки й натисни «Перевірити» ще раз." + (empty ? " Ще не заповнено: " + empty + "." : "");
+    msg.style.color = "var(--coral)";
+  } else if(empty > 0){
+    msg.textContent = "Поки все правильно! Залишилося заповнити: " + empty + ".";
+    msg.style.color = "var(--sky)";
+  }
+}
+
+function showAnswers(){
+  if(!confirm("Показати правильні відповіді? Неправильні та порожні клітинки буде заповнено.")) return;
+  revealed = true;
+  inputs().forEach(inp => {
+    if(inp.classList.contains("ok")) return;
+    inp.value = DATA[inp.dataset.r][inp.dataset.c];
+    inp.classList.remove("bad"); inp.classList.add("reveal");
+  });
+  const msg = document.getElementById("msg");
+  msg.textContent = "Відповіді показано жовтим. Натисни «Скинути» й спробуй пройти ще раз!";
+  msg.style.color = "#8a5d00";
+  update(false);
+}
+
+function reset(){
+  inputs().forEach(i => { i.value = ""; i.classList.remove("ok","bad","reveal"); });
+  attempts = 0; revealed = false;
+  document.getElementById("msg").textContent = "";
+  update(false);
+  window.scrollTo({top:0,behavior:"smooth"});
+  const first = inputs()[0]; if(first) first.focus({preventScroll:true});
+}
+
+document.getElementById("btnCheck").addEventListener("click", check);
+document.getElementById("btnShow").addEventListener("click", showAnswers);
+document.getElementById("btnReset").addEventListener("click", reset);
+
+// simple confetti
+function confetti(){
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const cv = document.getElementById("confetti"), ctx = cv.getContext("2d");
+  cv.width = innerWidth; cv.height = innerHeight;
+  const cols = ["#4aa3df","#38b887","#f6b93b","#e8645a","#8a6fd1"];
+  const ps = Array.from({length:140},() => ({x:Math.random()*cv.width,y:-20-Math.random()*cv.height*.5,
+    s:5+Math.random()*7,v:2+Math.random()*4,a:Math.random()*6,r:Math.random()*.2-.1,c:cols[Math.random()*5|0]}));
+  let t = 0;
+  (function f(){
+    ctx.clearRect(0,0,cv.width,cv.height);
+    ps.forEach(p => { p.y += p.v; p.x += Math.sin(p.a += .05)*1.5;
+      ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.a); ctx.fillStyle = p.c; ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6); ctx.restore(); });
+    if(++t < 220) requestAnimationFrame(f); else ctx.clearRect(0,0,cv.width,cv.height);
+  })();
+}
+update(false);
+</script>
+</body>
+</html>
